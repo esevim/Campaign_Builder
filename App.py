@@ -44,33 +44,33 @@ def to_excel(df, Sheet_Name):
     processed_data = output.getvalue()
     return processed_data
 
-def st_download_button(df_xlsx, name):
+def st_download_button(df_xlsx, name, key_name):
     st.download_button(
         label = f'''📥 Press to Download {name.split(' ')[2]} File''',
         data = df_xlsx,
         file_name = name,
-        key = 'download-button'
+        key = key_name
     )
 
 # Create and download files as per the input
 if Builder_type == 'Google Builder':
     Google_data_set = GB.main(df, Ref_df)
     df_xlsx = to_excel(Google_data_set[0], 'Structured Snippet Upload')
-    st_download_button(df_xlsx, f'New Agent Snippet Upload - {today_date}.xlsx')
+    st_download_button(df_xlsx, f'New Agent Snippet Upload - {today_date}.xlsx', 'Snip')
 
     df_xlsx = to_excel(Google_data_set[1], 'Sitelink Upload')
-    st_download_button(df_xlsx, f'New Agent Sitelink Upload - {today_date}.xlsx')
+    st_download_button(df_xlsx, f'New Agent Sitelink Upload - {today_date}.xlsx', 'Site')
 
     df_xlsx = to_excel(Google_data_set[2], 'Radius Location Upload')
-    st_download_button(df_xlsx, f'New Agent Radius-Target Upload - {today_date}.xlsx')
+    st_download_button(df_xlsx, f'New Agent Radius-Target Upload - {today_date}.xlsx', 'Radius')
 
     df_xlsx = to_excel(Google_data_set[3], 'Call Upload')
-    st_download_button(df_xlsx, f'New Agent Call Upload - {today_date}.xlsx')
+    st_download_button(df_xlsx, f'New Agent Call Upload - {today_date}.xlsx', 'Call')
 
     st.write('''Wait for a bit more. 
     If it says "Running" on Top-Right corner, it is coming''')
     df_xlsx = to_excel(Google_data_set[4], 'Bulk Upload - {today_date}')
-    st_download_button(df_xlsx, f'New Agent Bulk Upload - {today_date}.xlsx')
+    st_download_button(df_xlsx, f'New Agent Bulk Upload - {today_date}.xlsx', 'Bulk')
 
     st.stop()
 
