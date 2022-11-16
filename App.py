@@ -5,7 +5,7 @@ import streamlit as st
 import sys
 from io import BytesIO
 
-import Functions.Google_Builder as GB
+from Functions  import Google_Builder, Bing_Builder
 
 st.set_page_config(page_title='SF-DJ Campaign Builder Tool')
 st.header('Welcome To Campaign Builder!')
@@ -54,7 +54,7 @@ def st_download_button(df_xlsx, name, key_name):
 
 # Create and download files as per the input
 if Builder_type == 'Google Builder':
-    Google_data_set = GB.main(df, Ref_df)
+    Google_data_set = Google_Builder.main(df, Ref_df)
     df_xlsx = to_excel(Google_data_set[0], 'Structured Snippet Upload')
     st_download_button(df_xlsx, f'New Agent Snippet Upload - {today_date}.xlsx', 'Snip')
 
@@ -75,7 +75,25 @@ if Builder_type == 'Google Builder':
     st.stop()
 
 elif Builder_type == 'Bing Builder':
-    Bing = GB.main(df, Ref_df)
+    Bing_data_set = Bing_Builder.main(df, Ref_df)
+    df_xlsx = to_excel(Bing_data_set[0], 'Sitelink Upload')
+    st_download_button(df_xlsx, f'New Agent Sitelink Upload - {today_date}.xlsx', 'Site')
+
+    df_xlsx = to_excel(Bing_data_set[1], 'Structured Snippet Upload')
+    st_download_button(df_xlsx, f'New Agent Snippet Upload - {today_date}.xlsx', 'Snip')
+
+    df_xlsx = to_excel(Bing_data_set[2], 'Call Upload')
+    st_download_button(df_xlsx, f'New Agent Call Upload - {today_date}.xlsx', 'Call')
+
+    df_xlsx = to_excel(Bing_data_set[3], 'Radius Location Upload')
+    st_download_button(df_xlsx, f'New Agent Radius-Target Upload - {today_date}.xlsx', 'Radius')
+
+    st.write('''Wait for a bit more. 
+    If it says "Running" on Top-Right corner, it is coming''')
+    df_xlsx = to_excel(Bing_data_set[4], 'Bulk Upload - {today_date}')
+    st_download_button(df_xlsx, f'New Agent Bulk Upload - {today_date}.xlsx', 'Bulk')
+
+    st.stop()
 
 elif Builder_type == 'Desjardins Builder':
-    Desjardins = GB.main(df, Ref_df)
+    Desjardins = Google_Builder.main(df, Ref_df)
