@@ -72,7 +72,7 @@ if Builder_type == 'Google Builder':
     st.download_button(
         label = f'''📥 Press to Download Bulk File''',
         data = Google_data_set[4],
-        file_name =  f'New Agent Bulk Upload - {today_date}.xlsx',
+        file_name =  f'New Agent Bulk Upload - {today_date}.csv',
         key = 'Bulk'
     )
 
