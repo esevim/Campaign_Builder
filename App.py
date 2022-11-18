@@ -5,7 +5,7 @@ import streamlit as st
 import sys
 from io import BytesIO
 
-from Functions  import Google_Builder, Bing_Builder
+from Functions  import Google_Builder, Bing_Builder, Desjardins_Builder
 
 st.set_page_config(page_title='SF-DJ Campaign Builder Tool')
 st.header('Welcome To Campaign Builder!')
@@ -69,8 +69,15 @@ if Builder_type == 'Google Builder':
 
     st.write('''Wait for a bit more. 
     If it says "Running" on Top-Right corner, it is coming''')
-    df_xlsx = to_excel(Google_data_set[4], 'Bulk Upload - {today_date}')
-    st_download_button(df_xlsx, f'New Agent Bulk Upload - {today_date}.xlsx', 'Bulk')
+    st.download_button(
+        label = f'''📥 Press to Download Bulk File''',
+        data = Google_data_set[4],
+        file_name =  f'New Agent Bulk Upload - {today_date}.xlsx',
+        key = 'Bulk'
+    )
+
+    # df_xlsx = to_excel(Google_data_set[4], 'Bulk Upload - {today_date}')
+    # st_download_button(df_xlsx, f'New Agent Bulk Upload - {today_date}.xlsx', 'Bulk')
 
     st.stop()
 
@@ -96,4 +103,19 @@ elif Builder_type == 'Bing Builder':
     st.stop()
 
 elif Builder_type == 'Desjardins Builder':
-    Desjardins = Google_Builder.main(df, Ref_df)
+    Desjardins_data_set = Desjardins_Builder.main(df, Ref_df)
+    df_xlsx = to_excel(Desjardins_data_set[0], 'Sitelink Upload')
+    st_download_button(df_xlsx, f'New Agent Sitelink Upload - {today_date}.xlsx', 'Site')
+
+    df_xlsx = to_excel(Desjardins_data_set[1], 'Structured Snippet Upload')
+    st_download_button(df_xlsx, f'New Agent Snippet Upload - {today_date}.xlsx', 'Snip')
+
+    df_xlsx = to_excel(Desjardins_data_set[2], 'Call Upload')
+    st_download_button(df_xlsx, f'New Agent Call Upload - {today_date}.xlsx', 'Call')
+
+    st.write('''Wait for a bit more. 
+    If it says "Running" on Top-Right corner, it is coming''')
+    df_xlsx = to_excel(Desjardins_data_set[4], 'Bulk Upload - {today_date}')
+    st_download_button(df_xlsx, f'New Agent Bulk Upload - {today_date}.xlsx', 'Bulk')
+
+    st.stop()
