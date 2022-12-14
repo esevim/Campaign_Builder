@@ -22,10 +22,10 @@ today_date = date.today().strftime("%m.%d.%y")
 ### -- Upload File to App ---
 if Builder_type == 'Ad Copy Builder':
     Data_df = st.file_uploader(f'Please upload {Builder_type} Data file')
-    Ref_df = st.file_uploader(f'Please upload {Builder_type} Reference file')
+    # Ref_df = st.file_uploader(f'Please upload {Builder_type} Reference file')
     
-    if ((Data_df is None) or (Ref_df is None)):
-        st.write('Please upload Data and Ref Files')
+    if ((Data_df is None)):
+        st.write('Please upload Data File')
         st.stop()
 
     # df = pd.read_excel(Data_df, sheet_name='Agent Info')

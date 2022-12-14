@@ -5,7 +5,7 @@ import pandas as pd
 
 def main(df_table, ref_table):
     df = pd.read_excel(df_table, sheet_name='Agent Info')
-    ref1 = pd.read_excel(ref_table, sheet_name='Headers')
+    ref1 = pd.read_excel(df_table, sheet_name='Headers')
     ref2 = pd.read_excel(df_table, sheet_name='Ad Copy Template')
 
     df['Customer First Name'] = df['Agent Name'].str.split(' ',expand=True)[0]
