@@ -5,7 +5,7 @@ import streamlit as st
 import sys
 from io import BytesIO
 
-from Functions  import Google_Builder, Bing_Builder, Desjardins_Builder, Google_Spanish_Builder
+from Functions  import Google_Builder, Bing_Builder, Desjardins_Builder, Google_Spanish_Builder, Ad_Copy_Builder
 
 st.set_page_config(page_title='SF-DJ Campaign Builder Tool')
 st.header('Welcome To Campaign Builder!')
@@ -13,22 +13,35 @@ st.write('V1 - 11.11.2022')
 st.write('Please follow below instructions to create your outputs')
 
 Builder_type = st.selectbox(label='Please Choose which builder to work with:',
-                            options=['Google Builder', 'Bing Builder', 'Desjardins Builder', 'Google Spanish Builder'])
+                            options=['Google Builder', 'Bing Builder', 'Desjardins Builder', 'Google Spanish Builder', 'Ad Copy Builder'])
 st.write('You are working on: ', Builder_type)
 
 ## Create Base Variables
 today_date = date.today().strftime("%m.%d.%y")
 
 ### -- Upload File to App ---
-Data_df = st.file_uploader(f'Please upload {Builder_type} Data file')
-Ref_df = st.file_uploader(f'Please upload {Builder_type} Reference file')
+if Builder_type == 'Ad Copy Builder':
+    Data_df = st.file_uploader(f'Please upload {Builder_type} Data file')
+    Ref_df = st.file_uploader(f'Please upload {Builder_type} Reference file')
+    
+    if ((Data_df is None) or (Ref_df is None)):
+        st.write('Please upload Data and Ref Files')
+        st.stop()
 
-if ((Data_df is None) or (Ref_df is None)):
-    st.write('Please upload Data and Ref Files')
-    st.stop()
+    # df = pd.read_excel(Data_df, sheet_name='Agent Info')
+    # ref_1 = 
+    # st.write(df)
 
-df = pd.read_excel(Data_df)
-st.write(df)
+else:
+    Data_df = st.file_uploader(f'Please upload {Builder_type} Data file')
+    Ref_df = st.file_uploader(f'Please upload {Builder_type} Reference file')
+    
+    if ((Data_df is None) or (Ref_df is None)):
+        st.write('Please upload Data and Ref Files')
+        st.stop()
+
+    df = pd.read_excel(Data_df)
+    st.write(df)
 
 ### --- Downloading File ---
 # Convert DF to a Streamlit excel downloadable version
@@ -152,4 +165,12 @@ elif Builder_type == 'Google Spanish Builder':
         key = 'Bulk'
     )
     
+    st.stop()
+
+elif Builder_type == 'Ad Copy Builder':
+    Ad_Copy_data_set = Ad_Copy_Builder.main(Data_df, Ref_df)
+
+    df_xlsx = to_excel(Ad_Copy_data_set, 'Ad_Copy')
+    st_download_button(df_xlsx, f'Ad Copy Bulk Upload - {today_date}.xlsx', 'Ad_Copy')
+
     st.stop()
