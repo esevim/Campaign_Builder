@@ -5,7 +5,7 @@ import pandas as pd
 from datetime import date
 from dateutil.relativedelta import relativedelta
 import re
-from textblob import TextBlob
+
 
 def main(df, ref_table):
     warnings.filterwarnings('ignore')
