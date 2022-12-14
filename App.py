@@ -168,7 +168,7 @@ elif Builder_type == 'Google Spanish Builder':
     st.stop()
 
 elif Builder_type == 'Ad Copy Builder':
-    Ad_Copy_data_set = Ad_Copy_Builder.main(Data_df, Ref_df)
+    Ad_Copy_data_set = Ad_Copy_Builder.main(Data_df)
 
     df_xlsx = to_excel(Ad_Copy_data_set, 'Ad_Copy')
     st_download_button(df_xlsx, f'Ad Copy Bulk Upload - {today_date}.xlsx', 'Ad_Copy')
